@@ -1,0 +1,28 @@
+<html>
+<body>
+            {% if not user.is_authenticated %}
+                <a href="{% url 'accountapp:login' %}">
+                    <span>login</span>
+                </a>
+            {% else %}
+                <a href="{% url 'accountapp:logout' %}">
+                    <span>logout</span>
+                </a>
+            {% endif %}
+<form method="post">
+    {{ error_msg }} <!--새로 고침할 때마다 이 msg가 지워졌으면 좋겠는데 그건 어떻게 하는건가요...?&ndash;&gt;-->
+    {% csrf_token%}
+<tr><td>이메일</td></tr>
+    <tr><td><input type="email" name="email" placeholder="email"></td></tr>
+<tr><td>비밀번호</td></tr>
+    <tr><td><input type="password" name="password" placeholder="8자 이상 20자 이하 입력하세요."></td></tr>
+<tr><td>비밀번호 확인</td></tr>
+    <tr><td><input type="password" name="checkpwd"></td></tr>
+
+
+        <td><input type="submit" value="가입하기" class="btn"></td>
+
+    </form>
+</body>
+
+</html>

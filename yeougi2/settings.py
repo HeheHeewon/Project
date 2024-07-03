@@ -145,5 +145,14 @@ STATIC_URL = 'static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
+# settings.py
+
+# LOGIN_URL = '/account/login/'
+
+# settings.py
+AUTH_USER_MODEL = 'accountapp.Member'
+
+LOGIN_URL = '/accounts/login/'  # 혹은 원하는 URL로 설정
 LOGIN_REDIRECT_URL = '/account/mypage/'
 LOGOUT_REDIRECT_URL = '/account/login/'
+

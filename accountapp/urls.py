@@ -1,14 +1,18 @@
 from django.contrib.auth.views import LogoutView, LoginView
 from django.urls import path
+from .import views
 
 from accountapp.views import signup, login_view, logout_view,sign_done,mypage
 
 app_name="accountapp"
 
 urlpatterns=[
-    path('signup/',signup,name='signup'),
-    path('login/', login_view, name="login"),
-    path('logout/', logout_view, name="logout"),
-    path('signdone/', sign_done, name='signdone'),
-    path('mypage/', mypage, name='mypage'),
+    path('signup/',views.signup,name='signup'),
+    path('login/', views.login_view, name="login"),
+    path('logout/', views.logout_view, name="logout"),
+    path('signdone/', views.sign_done, name='signdone'),
+    path('mypage/', views.mypage, name='mypage'),
+    path('mypage/add_stamp/', views.add_stamp, name='add_stamp'),
+    path('mypage/verify/', views.verify, name='verify'),
+    # path('accounts/', include('django.contrib.auth.urls')),  # 여기서 django.contrib.auth.urls를 include
 ]

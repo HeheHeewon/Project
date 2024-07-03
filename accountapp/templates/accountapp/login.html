@@ -1,4 +1,4 @@
-<form method="post" action=".">
+ <form method="post" action="{% url 'accountapp:login' %}">
     {% csrf_token %}
     <div class="form-group row">
         <label  class="col-sm-2 col-form-label">Email</label>

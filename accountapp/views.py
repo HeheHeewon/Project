@@ -2,7 +2,7 @@ from django.contrib import auth
 from django.contrib.auth import login, authenticate, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.hashers import make_password, check_password
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render, redirect
 
 from accountapp.forms import MemberForm, LoginForm, ReservationForm, FavoriteForm
@@ -86,34 +86,33 @@ def logout_view(request):
 def sign_done(request):
     return render(request, 'accountapp/signdone.html')
 
+VERIFICATION_CODE = '123456'  # 실제 인증 코드 값
+
 @login_required
 def mypage(request):
-    user = request.user
-    stamps = Stamp.objects.filter(user=user)
-    reservations = Reservation.objects.filter(user=user)
-    favorites = Favorite.objects.filter(user=user)
+    stamps = Stamp.objects.filter(users=request.user)
+    return render(request, 'accountapp/mypage.html', {'stamps': stamps})
 
+# @login_required
+def verify(request):
     if request.method == 'POST':
-        reservation_form = ReservationForm(request.POST)
-        favorite_form = FavoriteForm(request.POST)
-        if reservation_form.is_valid():
-            reservation = reservation_form.save(commit=False)
-            reservation.user = user
-            reservation.save()
-        if favorite_form.is_valid():
-            favorite = favorite_form.save(commit=False)
-            favorite.user = user
-            favorite.save()
-        return redirect('mypage')
-    else:
-        reservation_form = ReservationForm()
-        favorite_form = FavoriteForm()
+        user_code = request.POST.get('verification_code')
+        if user_code == VERIFICATION_CODE:
+            return redirect('accountapp:add_stamp')
+        else:
+            message = "번호가 올바르지 않습니다."
+            return render(request, 'accountapp/verify.html', {'message': message})
+    return render(request, 'accountapp/verify.html')
 
-    context = {
-        'stamps': stamps,
-        'reservations': reservations,
-        'favorites': favorites,
-        'reservation_form': reservation_form,
-        'favorite_form': favorite_form,
-    }
-    return render(request, 'accountapp/mypage.html', context)
+@login_required
+def add_stamp(request):
+    if request.method == 'POST':
+        stamp_number = request.POST.get('stamp_number')
+        try:
+            stamp = Stamp.objects.get(number=stamp_number)
+            stamp.users.add(request.user)
+            return redirect('accountapp:mypage')
+        except Stamp.DoesNotExist:
+            message = "해당 번호의 도장이 존재하지 않습니다."
+            return render(request, 'accountapp/add_stamp.html', {'message': message})
+    return render(request, 'accountapp/add_stamp.html')

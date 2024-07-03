@@ -20,4 +20,5 @@ from django.urls import path, include
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('account/', include('accountapp.urls')),  # accountapp의 URLconf를 포함
+    # path('accounts/', include('django.contrib.auth.urls')),  # 여기서 django.contrib.auth.urls를 include
 ]

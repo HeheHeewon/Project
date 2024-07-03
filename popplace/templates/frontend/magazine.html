@@ -1,0 +1,17 @@
+{% extends 'frontend/phone.html' %} {% load static %} 
+{% block title %} : 매거진{% endblock %} {% block css %}
+<link rel="stylesheet" href="{% static 'css/map.css' %}" />
+{% endblock %} 
+
+
+{% block content %}
+<div class="magazine">매거진페이지</div>
+<div class="magazine">
+    <h1>{{ popupstore.name }}</h1>
+    <img src="{{ popupstore.image.url }}" alt="Popup Store Image">
+    <p>{{ popupstore.description }}</p>
+    <a href="/main">돌아가기</a>
+</div>
+{% endblock %}
+
+{% block nav %} {% include './nav/nav_magazine.html' %} {% endblock %}

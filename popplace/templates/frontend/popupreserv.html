@@ -1,0 +1,10 @@
+{% extends 'frontend/phone.html' %} {% load static %} {% block title %} : 팝업스토어 예약{% endblock %} {% block css %}
+<link rel="stylesheet" href="{% static 'css/popupreserv.css' %}" />
+{% endblock %} {% block content %}
+<div class="popupreserv">팝업 스토어 예약 페이지</div>
+<form action="{% url 'popplace:popupreserv' popup.id %}" method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <input type="submit" value="예약하기">
+</form>
+{% endblock %} {% block nav %} {% include './nav/nav_map.html' %} {% endblock %}

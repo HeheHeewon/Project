@@ -1,0 +1,30 @@
+{% extends 'frontend/phone.html' %}
+{% load static %}
+{% block title %} : 팝업스토어 상세{% endblock %}
+{% block css %}
+<link rel="stylesheet" href="{% static 'css/popupstore.css' %}" />
+{% endblock %}
+{% block content %}
+<div class="popupstore">팝업 스토어 상세 페이지</div>
+<h1>{{ popupstore.title }}</h1>
+<p>{{ popupstore.location }}</p>
+<p>{{ popupstore.description }}</p>
+
+<form action="{% url 'popplace:popupreserv' popup.id %}" method="post">
+    {% csrf_token %}
+    <!-- 예약 관련 폼 -->
+    <input type="submit" value="예약하기">
+</form>
+
+<h2>리뷰</h2>
+<ul>
+    {% for review in reviews %}
+        <li>{{ review.content }}</li>
+    {% endfor %}
+</ul>
+
+<a href="{% url 'popplace:popupreview' popup.id %}">후기쓰러가기</a>
+{% endblock %}
+{% block nav %}
+{% include './nav/nav_map.html' %}
+{% endblock %}

@@ -1,0 +1,9 @@
+.splashLogo {
+  display: flex;
+  justify-content: center;
+  margin-top: 238px;
+}
+
+.splashLogo img {
+  width: 202px;
+}

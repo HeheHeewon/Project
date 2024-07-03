@@ -1,0 +1,32 @@
+{% extends 'frontend/phone.html' %} {% load static %} {% block title %} : 팝업스토어 후기{% endblock %} {% block css %}
+<link rel="stylesheet" href="{% static 'css/popupreview.css' %}" />
+{% endblock %} {% block content %}
+<div class="popupreview">팝업 스토어 후기 페이지</div>
+<div class="popupreview">
+    <h1>{{ popup.name }} - 리뷰</h1>
+    <ul>
+        {% for review in reviews %}
+        <li>
+            <p>{{ review.user.username }}: {{ review.content }}</p>
+            <p>Rating: {{ review.sustainability_rating }}</p>
+            {% if review.image %}
+            <img src="{{ review.image.url }}" alt="Review Image">
+            {% endif %}
+            {% if review.video %}
+            <video controls>
+                <source src="{{ review.video.url }}" type="video/mp4">
+                Your browser does not support the video tag.
+            </video>
+            {% endif %}
+        </li>
+        {% endfor %}
+    </ul>
+
+    <h2>리뷰 작성하기</h2>
+    <form action="{% url 'popplace:popupreview' popup.id %}" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">리뷰 작성</button>
+    </form>
+</div>
+{% endblock %} {% block nav %} {% include './nav/nav_map.html' %} {% endblock %}

@@ -1,0 +1,30 @@
+{% extends 'frontend/phone.html' %}
+{% load static %}
+
+{% block title %}지도{% endblock %}
+
+{% block css %}
+    <link rel="stylesheet" href="{% static 'css/map.css' %}" />
+{% endblock %}
+
+{% block content %}
+    <div class="map">지도페이지</div>
+    <div id="map"></div>
+{% endblock %}
+
+
+<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=536649895a2fca9bfd027f79ac41c3aa&libraries=services"></script>
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        var container = document.getElementById('map');
+        var options = {
+            center: new kakao.maps.LatLng(37.5665, 126.9780), // 지도의 중심 좌표 설정
+            level: 5 // 지도의 확대 레벨 설정
+        };
+        var map = new kakao.maps.Map(container, options); // 지도 생성 및 객체 리턴
+    });
+</script>
+
+{% block nav %}
+    {% include './nav/nav_map.html' %}
+{% endblock %}

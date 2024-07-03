@@ -1,0 +1,16 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>PopPlace{% block title %}{% endblock %}</title>
+    <link rel="icon" href="{% static 'img/pop.png' %}" />
+    <link rel="apple-touch-icon" href="{% static 'img/pop.png' %}" />
+    <link rel="stylesheet" href="{% static 'css/common.css' %}" />
+    {% block css %}{% endblock %}
+  </head>
+  <body>
+    {% block body %}{% endblock %} {% block js %}{% endblock %}
+  </body>
+</html>

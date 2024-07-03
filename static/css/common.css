@@ -1,0 +1,55 @@
+/* 기초 세팅 */
+img {
+  width: 100%;
+  height: auto;
+}
+
+body {
+  margin: 0;
+}
+
+a:link,
+a:visited {
+  text-decoration: none;
+}
+
+p {
+  margin: 0;
+}
+
+* {
+  font-family: "Apple SD Gothic Neo", "맑은 고딕", "돋움", sans-serif;
+}
+
+/* 모바일 사이트 세팅 */
+.page {
+  background-color: rgb(188, 148, 255, 0.5);
+  width: 100vw;
+  height: 100vh;
+  min-height: 844px;
+}
+
+.page-bg {
+  height: 100vh;
+  min-height: 844px;
+  display: flex;
+  justify-content: center;
+}
+
+.page-space {
+  width: 100vw;
+  height: 100vh;
+  min-height: 844px;
+  background-color: white;
+}
+
+@media (hover: hover) {
+  .page-space {
+    width: 430px;
+  }
+}
+
+.center {
+  display: flex;
+  justify-content: center;
+}

@@ -1,0 +1,13 @@
+{% extends 'frontend/phone.html' %} {% load static %} {% block css %}
+<link rel="stylesheet" href="{% static 'css/splash.css' %}" />
+{% endblock %} {% block content %}
+<div class="splashLogo">
+  <img src="{% static 'img/popPlace.png' %}" alt="PopPlace" />
+</div>
+{% endblock %} {% block js %}
+<script>
+  setTimeout(function () {
+    window.location.href = "{% url 'popplace:main' %}";
+  }, 3000); // 3초 후 이동
+</script>
+{% endblock %}

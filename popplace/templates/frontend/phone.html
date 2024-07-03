@@ -1,0 +1,13 @@
+{% extends 'frontend/base.html' %} {% load static %} {% block body %}
+<div class="page">
+  <div class="page-bg">
+    <div class="page-space">
+      {% block header %}{% endblock %}
+      <div class="center">
+        <div class="content">{% block content %}{% endblock %}</div>
+      </div>
+      {% block nav %}{% endblock %}
+    </div>
+  </div>
+</div>
+{% endblock %}

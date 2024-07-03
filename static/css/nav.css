@@ -1,0 +1,16 @@
+.nav {
+  position: fixed;
+  bottom: 0;
+  width: calc(100% - 46px);
+  height: 83px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 23px;
+}
+
+@media (hover: hover) {
+  .nav {
+    width: calc(430px - 46px);
+  }
+}

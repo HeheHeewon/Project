@@ -6,7 +6,7 @@ from accountapp.models import Member, Reservation, Favorite
 class MemberForm(forms.ModelForm):
     class Meta:
         model = Member
-        fields = ['email', 'password', 'name', 'age']
+        fields = ['email', 'password', 'name', 'age', 'is_male', 'is_female']
 
     def clean_email(self):
         email = self.cleaned_data.get('email')
@@ -22,7 +22,13 @@ class MemberForm(forms.ModelForm):
 
     def clean(self):
         cleaned_data = super().clean()
-        email = cleaned_data.get("email")
+        is_male = cleaned_data.get('is_male')
+        is_female = cleaned_data.get('is_female')
+
+        # 둘 다 선택된 경우 에러 발생
+        if is_male and is_female:
+            raise forms.ValidationError('남성 또는 여성 중 하나만 선택해야 합니다.')
+        return cleaned_data
 
 class LoginForm(forms.Form):
     email = forms.CharField(

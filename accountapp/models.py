@@ -10,6 +10,9 @@ class Member(models.Model):
     age = models.CharField(max_length=20,null=True, blank=True, verbose_name='나이')
     last_login = models.DateTimeField(verbose_name="last login", auto_now=True)
 
+    is_male = models.BooleanField(verbose_name='남성', default=False)
+    is_female = models.BooleanField(verbose_name='여성', default=False)
+
     class Meta:
         db_table = 'member'
 

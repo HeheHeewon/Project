@@ -1,11 +1,12 @@
 from django.contrib import auth
 from django.contrib.auth import login, authenticate, logout
+from django.contrib.auth.decorators import login_required
 from django.contrib.auth.hashers import make_password, check_password
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
 
-from accountapp.forms import MemberForm, LoginForm
-from accountapp.models import Member
+from accountapp.forms import MemberForm, LoginForm, ReservationForm, FavoriteForm
+from accountapp.models import Member, Stamp, Reservation, Favorite
 
 res_data = {}
 
@@ -17,6 +18,7 @@ def signup(request):
         password = request.POST['password']
         lenpwd=len(password)
         checkpwd = request.POST['checkpwd']
+
         if not (email and password and checkpwd):
             res_data['error_msg'] = "모든 값을 입력해야 합니다."
         elif (password != checkpwd):
@@ -31,8 +33,6 @@ def signup(request):
             form.save()
             return redirect('/account/login')
     return render(request, 'accountapp/signup.html', res_data)
-
-
 
 def login_view(request):
     is_ok = False
@@ -69,3 +69,35 @@ def logout_view(request):
 
 def sign_done(request):
     return render(request, 'accountapp/signdone.html')
+
+@login_required
+def mypage(request):
+    user = request.user
+    stamps = Stamp.objects.filter(user=user)
+    reservations = Reservation.objects.filter(user=user)
+    favorites = Favorite.objects.filter(user=user)
+
+    if request.method == 'POST':
+        reservation_form = ReservationForm(request.POST)
+        favorite_form = FavoriteForm(request.POST)
+        if reservation_form.is_valid():
+            reservation = reservation_form.save(commit=False)
+            reservation.user = user
+            reservation.save()
+        if favorite_form.is_valid():
+            favorite = favorite_form.save(commit=False)
+            favorite.user = user
+            favorite.save()
+        return redirect('mypage')
+    else:
+        reservation_form = ReservationForm()
+        favorite_form = FavoriteForm()
+
+    context = {
+        'stamps': stamps,
+        'reservations': reservations,
+        'favorites': favorites,
+        'reservation_form': reservation_form,
+        'favorite_form': favorite_form,
+    }
+    return render(request, 'accountapp/mypage.html', context)

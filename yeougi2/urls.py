@@ -20,6 +20,4 @@ from django.urls import path, include
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('account/', include('accountapp.urls')),  # accountapp의 URLconf를 포함
-
-
 ]

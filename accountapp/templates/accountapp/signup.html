@@ -31,6 +31,16 @@
                     <label for="is_female">여성</label>
                 </td>
             </tr>
+           <div class="law">
+    <label for="law_all">약관 동의<br></label>
+    <input type="checkbox" id="law_all" name="law_all" value="전체 동의" onclick="toggleCheckboxes(event)">전체 동의합니다<br>
+    <input type="checkbox" id="law_use" name="law" value="use" required>개인정보 수집 및 이용에 동의합니다 (필수)<br>
+    <input type="checkbox" id="law_where" name="law" value="where">위치정보 수집에 동의합니다 (선택)
+</div>
+        <div id="error-message" style="display: none; color: red">
+          회원가입에 실패했습니다. 다시 시도해주세요.
+        </div>
+
 
         <td><input type="submit" value="가입하기" class="btn"></td>
 

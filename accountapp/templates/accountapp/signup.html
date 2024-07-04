@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>팝플레이스 회원가입</title>
+    <style>
+        img {
+            width: 100%;
+            height: auto;
+        }
+
+        body {
+            margin: 0;
+            background-color: rgba(188, 148, 255, 0.5);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        a:link,
+        a:visited {
+            text-decoration: none;
+        }
+
+        p {
+            margin: 0;
+        }
+
+        * {
+            font-family: "Noto Sans KR", "Apple SD Gothic Neo", "맑은 고딕", "돋움", sans-serif;
+        }
+
+        .signup {
+            background-color: white;
+            width: 100%;
+            max-width: 430px;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            box-sizing: border-box;
+        }
+
+        .signup h1 {
+            color: #7a1ea1;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .signup label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+
+        .signup input[type="email"],
+        .signup input[type="password"],
+        .signup input[type="text"],
+        .signup input[type="number"] {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            box-sizing: border-box;
+        }
+
+        .signup .sex {
+            display: flex;
+            justify-content: space-around;
+            margin-bottom: 15px;
+        }
+
+        .signup .sex input {
+            margin-right: 5px;
+        }
+
+        .signup .law {
+            margin-bottom: 15px;
+        }
+
+        .signup .law input {
+            margin-right: 5px;
+        }
+
+        .signup .law label {
+            display: flex;
+            align-items: center;
+        }
+
+        .signup .signupsubmit {
+            text-align: center;
+        }
+
+        .signup .signupsubmit input {
+            width: 100%;
+            padding: 10px;
+            background-color: #7a1ea1;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        .signup .signupsubmit input:hover {
+            background-color: #5e1580;
+        }
+
+        .signup .error-message {
+            display: none;
+            color: red;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+
+        .signup .prepage {
+            background: none;
+            border: none;
+            margin-bottom: 15px;
+        }
+
+        .signup .prepage img {
+            width: 24px;
+            height: 24px;
+        }
+    </style>
+</head>
+<body>
+    <div class="signup">
+        <button class="prepage" type="button" onclick="goBack()">
+            <img src="path/to/your/predirection.png" alt="이전 페이지" />
+        </button>
+        <h1>팝플레이스 회원가입</h1>
+        <form method="post">
+            {{ error_msg }}
+            {% csrf_token %}
+            <div class="emailform">
+                <label for="email">이메일<br> </label>
+                <input type="email" id="email" name="email" placeholder="이메일을 입력해주세요" required>
+            </div>
+            <div class="pwform">
+                <label for="password">비밀번호<br> </label>
+                <input type="password" id="password" name="password" placeholder="8 ~ 20자 영문 대,소문자, 숫자, 특수문자 조합" minlength="8" maxlength="20" required>
+            </div>
+            <div class="repwform">
+                <label for="checkpwd">비밀번호 확인<br> </label>
+                <input type="password" id="checkpwd" name="checkpwd" placeholder="8 ~ 20자 영문 대,소문자, 숫자, 특수문자 조합" minlength="8" maxlength="20" required>
+            </div>
+            <div class="nameform">
+                <label for="name">이름<br> </label>
+                <input type="text" id="name" name="name" placeholder="이름을 입력해주세요" required>
+            </div>
+            <div class="ageform">
+                <label for="age">나이<br> </label>
+                <input type="number" id="age" name="age" placeholder="나이를 입력해주세요" min="1" required>
+            </div>
+            <div class="sex">
+                <label for="sex">성별<br> </label>
+                <input type="radio" id="male" name="sex" value="남성" required> 남성
+                <input type="radio" id="female" name="sex" value="여성" required> 여성
+            </div>
+            <div class="law">
+                <label for="law">약관 동의<br> </label>
+                <input type="checkbox" id="law_all" name="law_all" value="전체 동의" onclick="toggleCheckboxes(event)"> 전체 동의합니다<br>
+                <input type="checkbox" id="law_use" name="law" value="use" required> 개인정보 수집 및 이용에 동의합니다 (필수)<br>
+                <input type="checkbox" id="law_where" name="law" value="where"> 위치정보 수집에 동의합니다 (선택)
+            </div>
+            <div id="error-message" class="error-message">
+                회원가입에 실패했습니다. 다시 시도해주세요.
+            </div>
+            <div class="signupsubmit">
+                <input type="submit" value="팝플레이스 회원가입하기">
+            </div>
+        </form>
+    </div>
+
+<script>
+    function goBack() {
+        window.location.href = "http://127.0.0.1:8000/account/login";
+    }
+
+    function toggleCheckboxes(event) {
+        const checkboxes = document.querySelectorAll('input[type="checkbox"]');
+        const isChecked = event.target.checked;
+
+        checkboxes.forEach((checkbox, index) => {
+            if (index !== 0) {
+                checkbox.checked = isChecked;
+            }
+        });
+    }
+</script>
+</body>
+</html>

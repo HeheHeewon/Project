@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>도장 추가하기</title>
+    <script src="https://cdn.jsdelivr.net/npm/@zxing/library@latest"></script>
+</head>
+<body>
+    <h1>도장 추가하기</h1>
+
+    <div id="qr-reader" style="width: 500px"></div>
+    <button onclick="scanQR()">QR 코드 스캔하기</button>
+
+    <form id="add-stamp-form" method="post" action="{% url 'add_stamp' %}">
+        {% csrf_token %}
+        <input type="hidden" id="stamp_code" name="stamp_code">
+        <button type="submit">도장 추가</button>
+    </form>
+
+    <script>
+        function scanQR() {
+            const codeReader = new ZXing.BrowserQRCodeReader();
+            codeReader.decodeFromInputVideoDevice(undefined, 'qr-reader')
+                .then(result => {
+                    document.getElementById('stamp_code').value = result.text;
+                    document.getElementById('add-stamp-form').submit();
+                })
+                .catch(err => console.error(err));
+        }
+    </script>
+</body>
+</html>

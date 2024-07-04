@@ -1,12 +1,16 @@
 from django.contrib import auth
-from django.contrib.auth import login, authenticate, logout
+from django.contrib.auth import login, authenticate, logout, get_user_model
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.hashers import make_password, check_password
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render, redirect
 
 from accountapp.forms import MemberForm, LoginForm, ReservationForm, FavoriteForm
-from accountapp.models import Member, Stamp, Reservation, Favorite
+from accountapp.models import Member, Stamp, Reservation, Favorite, Profile
+from django.shortcuts import get_object_or_404
+from .models import Stamp
+
+Member = get_user_model()
 
 # res_data = {}
 
@@ -34,7 +38,6 @@ def signup(request):
             member = form.save(commit=False)
             member.password = make_password(password)
             member.save()
-
             return redirect('/account/login')
     else:
         res_data['error_msg'] = '유효하지 않은 데이터입니다. 입력된 값을 확인하세요.'
@@ -86,14 +89,33 @@ def logout_view(request):
 def sign_done(request):
     return render(request, 'accountapp/signdone.html')
 
+
+@login_required
+def my_page(request):
+    user = request.user
+    try:
+        profile = Profile.objects.get(user=user)
+    except Profile.DoesNotExist:
+        profile = None
+
+    reservations = Reservation.objects.filter(user=user)
+    stamps_count = Stamp.objects.filter(user=user).count()
+
+    # 해당 사용자와 연결된 모든 Stamp 객체들을 가져옴
+    stamps = user.stamps.all()
+
+    context = {
+        'user': user,
+        'profile': profile,
+        'reservations': reservations,
+        'stamps_count': stamps_count,
+    }
+
+    return render(request, 'accountapp/mypage.html', context)
+
 VERIFICATION_CODE = '123456'  # 실제 인증 코드 값
 
 @login_required
-def mypage(request):
-    stamps = Stamp.objects.filter(users=request.user)
-    return render(request, 'accountapp/mypage.html', {'stamps': stamps})
-
-# @login_required
 def verify(request):
     if request.method == 'POST':
         user_code = request.POST.get('verification_code')
@@ -109,10 +131,23 @@ def add_stamp(request):
     if request.method == 'POST':
         stamp_number = request.POST.get('stamp_number')
         try:
-            stamp = Stamp.objects.get(number=stamp_number)
-            stamp.users.add(request.user)
-            return redirect('accountapp:mypage')
+            if stamp_number == '1':  # 카카오 도장 추가
+                stamp = Stamp.objects.get(number='카카오 도장 번호')
+                stamp.users.add(request.user)
+                stamp.count += 1  # 도장 개수 업데이트
+                stamp.save()
+                message = "카카오 도장 추가가 완료되었습니다."
+            elif stamp_number == '2':  # 키티 도장 추가
+                stamp = Stamp.objects.get(number='키티 도장 번호')
+                stamp.users.add(request.user)
+                stamp.count += 1  # 도장 개수 업데이트
+                stamp.save()
+                message = "키티 도장 추가가 완료되었습니다."
+            else:
+                message = "해당 번호의 도장이 존재하지 않습니다."
         except Stamp.DoesNotExist:
             message = "해당 번호의 도장이 존재하지 않습니다."
-            return render(request, 'accountapp/add_stamp.html', {'message': message})
+
+        return render(request, 'accountapp/add_stamp.html', {'message': message})
+
     return render(request, 'accountapp/add_stamp.html')

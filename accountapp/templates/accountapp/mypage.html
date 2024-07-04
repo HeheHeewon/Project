@@ -1,50 +1,24 @@
-<!-- accountapp/templates/accountapp/mypage.html -->
+<!-- my_page.html -->
+{% block content %}
+    <h2>마이 페이지</h2>
+    <p>이메일: {{ user.email }}</p>
 
-<!DOCTYPE html>
-<html lang="ko">
-<head>
-    <meta charset="UTF-8">
-    <title>My Page</title>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-</head>
-<body>
-    <div class="container">
-        <h2>마이 페이지</h2>
+    <h2>내 프로필</h2>
+    <!-- 기타 사용자 정보 표시 -->
 
-        <!-- 도장 아이콘 리스트 -->
-        <div>
-            <h3>도장</h3>
-            <div>
-                {% for stamp in stamps %}
-                    <img src="{{ stamp.icon }}" alt="stamp-icon" class="stamp-icon" data-toggle="modal" data-target="#stampModal">
-                {% endfor %}
-            </div>
-        </div>
+    <h2>예약 내역 :</h2>
+    <ul>
+        {% for reservation in reservations %}
+            <li>{{ reservation }}</li>
+        {% endfor %}
+    </ul>
 
-        <!-- 도장 추가 버튼 -->
-        <div>
-            <a href="{% url 'accountapp:verify' %}" class="btn btn-primary mt-3">도장 추가</a>
-        </div>
+    <h2>도장 개수 : {{ stamps_count }}</h2>
 
-        <!-- Stamp Modal -->
-        <div class="modal" id="stampModal">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h4 class="modal-title">도장판</h4>
-                        <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    </div>
-                    <div class="modal-body">
-                        <p>도장판 내용</p>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</body>
-</html>
+
+   <a href="http://127.0.0.1:8000/account/mypage/verify/" id="goToMyPageLink">도장 추가하기</a>
+
+
+    <!-- 추가적인 사용자 정보 출력 -->
+    <!-- 사용자 정보 수정 폼 -->
+{% endblock %}

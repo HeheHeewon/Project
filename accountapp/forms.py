@@ -2,6 +2,9 @@ import django.contrib.auth.forms as auth_forms
 from django import forms
 from accountapp.models import Member, Reservation, Favorite
 
+from django.contrib.auth import get_user_model
+
+Member = get_user_model()
 
 class MemberForm(forms.ModelForm):
     class Meta:

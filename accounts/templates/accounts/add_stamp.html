@@ -1,0 +1,17 @@
+<!-- accounts/templates/accounts/add_stamp.html -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>인증 번호 입력</title>
+</head>
+<body>
+    <h2>인증 번호를 입력하세요.</h2>
+    <form method="post">
+        {% csrf_token %}
+        <input type="text" name="authentication_code" placeholder="인증 번호">
+        <button type="submit">추가</button>
+    </form>
+</body>
+</html>

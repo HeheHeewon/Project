@@ -1,0 +1,52 @@
+<!-- accountapp/mypage.html -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>My Page</title>
+</head>
+<body>
+    <h1>Welcome, {{ user.username }}</h1>
+
+    {% if profile %}
+    <h2>Profile</h2>
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ profile_form.as_p }}
+        <button type="submit">Update Profile</button>
+    </form>
+    <!-- Display other profile fields as needed -->
+    {% else %}
+    <p>No profile found.</p>
+    {% endif %}
+
+    <h2>Reservations</h2>
+    <ul>
+        {% for reservation in reservations %}
+        <li>
+            <strong>Date:</strong> {{ reservation.date }}<br>
+            <strong>Time:</strong> {{ reservation.time }}
+            <!-- Add more details as needed -->
+        </li>
+        {% empty %}
+        <li>No reservations found.</li>
+        {% endfor %}
+    </ul>
+
+    <h2>Stamps</h2>
+    <p>Stamps Count: {{ stamps_count }}</p>
+    <ul>
+    {% for stamp in stamps %}
+        <li>{{ stamp.created_at }}</li>
+    {% empty %}
+        <li>No stamps found.</li>
+    {% endfor %}
+    </ul>
+
+    <!-- Add more content as needed -->
+  <!-- + 버튼을 누르면 add_stamp 뷰로 이동하도록 링크 걸기 -->
+    <p><a href="{% url 'accounts:add_stamp' %}">도장 추가</a></p>
+
+</body>
+</html>

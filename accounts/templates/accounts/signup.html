@@ -1,50 +1,75 @@
-<html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Up</title>
+</head>
 <body>
-            {% if not user.is_authenticated %}
-                <a href="{% url 'accounts:login' %}">
-                    <span>login</span>
-                </a>
-            {% else %}
-                <a href="{% url 'accounts:logout' %}">
-                    <span>logout</span>
-                </a>
-            {% endif %}
-<form method="post">
-    {{ error_msg }} <!--새로 고침할 때마다 이 msg가 지워졌으면 좋겠는데 그건 어떻게 하는건가요...?&ndash;&gt;-->
-    {% csrf_token%}
-<tr><td>이메일</td></tr>
-    <tr><td><input type="email" name="email" placeholder="email"></td></tr>
-<tr><td>비밀번호</td></tr>
-    <tr><td><input type="password" name="password" placeholder="8자 이상 20자 이하 입력하세요."></td></tr>
-<tr><td>비밀번호 확인</td></tr>
-    <tr><td><input type="password" name="checkpwd"></td></tr>
-<tr><td>이름</td></tr>
-    <tr><td><input type="name" name="name" placeholder="name"></td></tr>
-<tr><td>나이</td></tr>
-    <tr><td><input type="age" name="age" placeholder="age"></td></tr>
-    <tr>
+    {% if not user.is_authenticated %}
+        <a href="{% url 'accounts:login' %}">
+            <span>login</span>
+        </a>
+    {% else %}
+        <a href="{% url 'accounts:logout' %}">
+            <span>logout</span>
+        </a>
+    {% endif %}
+
+    <form method="post">
+        {% csrf_token %}
+        <table>
+            <tr>
+                <td>이메일</td>
+                <td><input type="email" name="email" placeholder="email" required></td>
+            </tr>
+            <tr>
+                <td>비밀번호</td>
+                <td><input type="password" name="password1" placeholder="8자 이상 20자 이하 입력하세요." required></td>
+            </tr>
+            <tr>
+                <td>비밀번호 확인</td>
+                <td><input type="password" name="password2" placeholder="비밀번호 확인" required></td>
+            </tr>
+            <tr>
+                <td>이름</td>
+                <td><input type="text" name="first_name" placeholder="이름" required></td>
+            </tr>
+            <tr>
+                <td>나이</td>
+                <td><input type="number" name="age" placeholder="나이" required></td>
+            </tr>
+            <tr>
                 <td>성별</td>
                 <td>
-                    <input type="checkbox" id="is_male" name="is_male">
-                    <label for="is_male">남성</label>
-                    <input type="checkbox" id="is_female" name="is_female">
-                    <label for="is_female">여성</label>
+                    <input type="radio" id="male" name="gender" value="male">
+                    <label for="male">남성</label>
+                    <input type="radio" id="female" name="gender" value="female">
+                    <label for="female">여성</label>
                 </td>
             </tr>
-           <div class="law">
-    <label for="law_all">약관 동의<br></label>
-    <input type="checkbox" id="law_all" name="law_all" value="전체 동의" onclick="toggleCheckboxes(event)">전체 동의합니다<br>
-    <input type="checkbox" id="law_use" name="law" value="use" required>개인정보 수집 및 이용에 동의합니다 (필수)<br>
-    <input type="checkbox" id="law_where" name="law" value="where">위치정보 수집에 동의합니다 (선택)
-</div>
-        <div id="error-message" style="display: none; color: red">
-          회원가입에 실패했습니다. 다시 시도해주세요.
-        </div>
-
-
-        <td><input type="submit" value="가입하기" class="btn"></td>
-
+            <tr>
+                <td colspan="2">
+                    <div class="law">
+                        <label for="law_all">약관 동의<br></label>
+                        <input type="checkbox" id="law_all" name="law_all" value="전체 동의" onclick="toggleCheckboxes(event)"> 전체 동의합니다<br>
+                        <input type="checkbox" id="law_use" name="law" value="use" required> 개인정보 수집 및 이용에 동의합니다 (필수)<br>
+                        <input type="checkbox" id="law_where" name="law" value="where"> 위치정보 수집에 동의합니다 (선택)
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2">
+                    <input type="submit" value="가입하기" class="btn">
+                </td>
+            </tr>
+        </table>
     </form>
-</body>
 
+    {% if form.errors %}
+        <div id="error-message" style="color: red">
+            회원가입에 실패했습니다. 다시 시도해주세요.
+        </div>
+    {% endif %}
+</body>
 </html>

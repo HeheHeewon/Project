@@ -1,0 +1,10 @@
+<!-- my_page.html -->
+{% extends 'base.html' %}
+{% block content %}
+    <h2>마이 페이지</h2>
+    <p>이메일: {{ user.email }}</p>
+    <p>이름: {{ user.member.name }}</p>
+    <p>나이: {{ user.member.age }}</p>
+    <!-- 추가적인 사용자 정보 출력 -->
+    <!-- 사용자 정보 수정 폼 -->
+{% endblock %}

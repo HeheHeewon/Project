@@ -1,4 +1,5 @@
 <html>
+{% csrf_token %}
 <body>
             {% if not user.is_authenticated %}
                 <a href="{% url 'accountapp:login' %}">
@@ -40,8 +41,6 @@
         <div id="error-message" style="display: none; color: red">
           회원가입에 실패했습니다. 다시 시도해주세요.
         </div>
-
-
         <td><input type="submit" value="가입하기" class="btn"></td>
 
     </form>

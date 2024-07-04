@@ -113,6 +113,13 @@ USE_I18N = True
 
 USE_TZ = True
 
+AUTH_USER_MODEL = 'accountapp.Member'
+
+# settings.py
+AUTHENTICATION_BACKENDS = [
+    'django.contrib.auth.backends.ModelBackend',  # 기본 백엔드 유지
+    'yourapp.backends.EmailBackend',  # 이메일 기반 커스텀 백엔드 추가
+]
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
